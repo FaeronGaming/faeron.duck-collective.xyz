@@ -1,5 +1,7 @@
 import Head from 'next/head'
 import styled, { css } from 'styled-components';
+import { getAllPosts, Post as PostType } from '../src/graphcms';
+import { Post } from '../src/Post';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -113,7 +115,7 @@ const Logo = styled.img`
   height: 1em;
 `;
 
-export default function Home() {
+export default function Home({ posts } : { posts: Array<PostType> }) {
   return (
     <Container>
       <Head>
@@ -156,6 +158,7 @@ export default function Home() {
             </p>
           </Card>
         </Grid>
+        {posts.map(post => <Post {...post} key={post.slug}/>)}
       </Main>
 
       <Footer>
@@ -170,4 +173,11 @@ export default function Home() {
       </Footer>
     </Container>
   )
+}
+
+export async function getStaticProps() {
+  const posts = await getAllPosts();
+  return {
+    props: { posts }
+  };
 }
