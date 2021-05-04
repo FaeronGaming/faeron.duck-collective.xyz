@@ -1,3 +1,5 @@
+import { AppProps } from 'next/dist/next-server/lib/router/router';
+import { ReactNode } from 'react';
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
@@ -19,7 +21,7 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps): ReactNode {
   return (
     <>
       <GlobalStyle />
@@ -28,4 +30,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp
+export default MyApp;

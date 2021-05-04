@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import styled, { css } from 'styled-components';
 import { getAllPosts, Post as PostType } from '../src/graphcms';
 import { Post } from '../src/Post';
@@ -115,7 +115,11 @@ const Logo = styled.img`
   height: 1em;
 `;
 
-export default function Home({ posts } : { posts: Array<PostType> }) {
+export default function Home({
+  posts,
+}: {
+  posts: Array<PostType>;
+}): JSX.Element {
   return (
     <Container>
       <Head>
@@ -129,8 +133,7 @@ export default function Home({ posts } : { posts: Array<PostType> }) {
         </Title>
 
         <Description>
-          Get started by editing{' '}
-          <Code>pages/index.js</Code>
+          Get started by editing <Code>pages/index.js</Code>
         </Description>
 
         <Grid>
@@ -149,16 +152,16 @@ export default function Home({ posts } : { posts: Array<PostType> }) {
             <p>Discover and deploy boilerplate example Next.js projects.</p>
           </Card>
 
-          <Card
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          >
+          <Card href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app">
             <h3>Deploy &rarr;</h3>
             <p>
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
           </Card>
         </Grid>
-        {posts.map(post => <Post {...post} key={post.slug}/>)}
+        {posts.map((post) => (
+          <Post {...post} key={post.slug} />
+        ))}
       </Main>
 
       <Footer>
@@ -167,17 +170,20 @@ export default function Home({ posts } : { posts: Array<PostType> }) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
-          <Logo src="/vercel.svg" alt="Vercel Logo" />
+          Powered by <Logo src="/vercel.svg" alt="Vercel Logo" />
         </a>
       </Footer>
     </Container>
-  )
+  );
 }
 
-export async function getStaticProps() {
+export async function getStaticProps(): Promise<{
+  props: {
+    posts: Array<PostType>;
+  };
+}> {
   const posts = await getAllPosts();
   return {
-    props: { posts }
+    props: { posts },
   };
 }

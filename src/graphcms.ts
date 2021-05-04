@@ -1,6 +1,6 @@
 export type JsonResponse<T> = {
-  data?: T,
-  errors?: Array<{message: string}>
+  data?: T;
+  errors?: Array<{ message: string }>;
 };
 
 export type Post = {
@@ -9,7 +9,7 @@ export type Post = {
   excerpt: string;
   date: string;
   coverImage: {
-    url: string
+    url: string;
   };
   author: {
     name: string;
@@ -20,10 +20,14 @@ export type Post = {
 };
 
 export type PostsResponse = {
-  posts: Array<Post>
+  posts: Array<Post>;
 };
 
-async function fetchApi<T>(query: string, {variables}: {variables?: Record<string, any>} = {}) {
+async function fetchApi<T>(
+  query: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  { variables }: { variables?: Record<string, any> } = {}
+): Promise<T | undefined> {
   const response = await fetch(process.env.GRAPHCMS_PROJECT_API, {
     method: 'POST',
     headers: {
@@ -32,11 +36,11 @@ async function fetchApi<T>(query: string, {variables}: {variables?: Record<strin
     },
     body: JSON.stringify({
       query,
-      variables
-    })
+      variables,
+    }),
   });
 
-  const json : JsonResponse<T> = await response.json();
+  const json: JsonResponse<T> = await response.json();
 
   if (json.errors) {
     console.error(json.errors);
@@ -46,7 +50,7 @@ async function fetchApi<T>(query: string, {variables}: {variables?: Record<strin
   return json.data;
 }
 
-export async function getAllPosts() {
+export async function getAllPosts(): Promise<Array<Post>> {
   const data = await fetchApi<PostsResponse>(`{
     posts(orderBy: date_DESC, first: 1) {
       title

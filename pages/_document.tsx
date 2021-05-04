@@ -1,17 +1,25 @@
-import NextDocument from 'next/document'
-import { ServerStyleSheet } from 'styled-components'
+import { DocumentContext } from 'next/dist/next-server/lib/utils';
+import NextDocument from 'next/document';
+import { ServerStyleSheet } from 'styled-components';
 
 export default class Document extends NextDocument {
-  static async getInitialProps (ctx) {
+  static async getInitialProps(
+    ctx: DocumentContext
+  ): Promise<{
+    styles: JSX.Element;
+    html: string;
+    head?: JSX.Element[];
+  }> {
     const sheet = new ServerStyleSheet();
     const originalRenderPage = ctx.renderPage;
     try {
       ctx.renderPage = () => {
         return originalRenderPage({
-          enhanceApp: App => props => sheet.collectStyles(<App {...props} />)
+          enhanceApp: (App) => (props) =>
+            sheet.collectStyles(<App {...props} />),
         });
       };
-      const initialProps = await NextDocument.getInitialProps(ctx)
+      const initialProps = await NextDocument.getInitialProps(ctx);
       return {
         ...initialProps,
         styles: (
@@ -19,10 +27,10 @@ export default class Document extends NextDocument {
             {initialProps.styles}
             {sheet.getStyleElement()}
           </>
-        )
-      }
+        ),
+      };
     } finally {
-      sheet.seal()
+      sheet.seal();
     }
   }
 }
