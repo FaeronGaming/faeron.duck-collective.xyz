@@ -3,9 +3,7 @@ import NextDocument from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
 export default class Document extends NextDocument {
-  static async getInitialProps(
-    ctx: DocumentContext
-  ): Promise<{
+  static async getInitialProps(ctx: DocumentContext): Promise<{
     styles: JSX.Element;
     html: string;
     head?: JSX.Element[];
