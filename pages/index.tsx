@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import styled, { css } from 'styled-components';
-import { getAllPosts, Post as PostType } from '../src/graphcms';
-import { Post } from '../src/Post';
+import { getAllPosts, Post as PostType } from '../graphcms/posts';
+import { Post } from '../components/Post';
 
 const Container = styled.div`
   min-height: 100vh;

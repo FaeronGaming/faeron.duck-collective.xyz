@@ -1,4 +1,4 @@
-import { Post as PostType } from './graphcms';
+import { Post as PostType } from '../graphcms/posts';
 
 export const Post: React.FC<PostType> = ({ title }) => {
   return (
