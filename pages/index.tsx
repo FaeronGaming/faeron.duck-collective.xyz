@@ -1,7 +1,9 @@
 import Head from 'next/head';
 import styled, { css } from 'styled-components';
-import { getAllPosts, Post as PostType } from '../graphcms/posts';
+import { getLatestPost, Post as PostType } from '../graphcms/posts';
 import { Post } from '../components/Post';
+import useSWR from 'swr';
+import { fetcher } from '../util/fetcher';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -120,6 +122,9 @@ export default function Home({
 }: {
   posts: Array<PostType>;
 }): JSX.Element {
+  const { data } = useSWR<PostType[]>(['/api/blog/latest', 'GET'], fetcher, {
+    initialData: posts,
+  });
   return (
     <Container>
       <Head>
@@ -159,7 +164,7 @@ export default function Home({
             </p>
           </Card>
         </Grid>
-        {posts.map((post) => (
+        {data.map((post) => (
           <Post {...post} key={post.slug} />
         ))}
       </Main>
@@ -182,7 +187,7 @@ export async function getStaticProps(): Promise<{
     posts: Array<PostType>;
   };
 }> {
-  const posts = await getAllPosts();
+  const posts = await getLatestPost();
   return {
     props: { posts },
   };
