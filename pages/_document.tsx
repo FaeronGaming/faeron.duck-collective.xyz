@@ -1,5 +1,5 @@
 import { DocumentContext } from 'next/dist/next-server/lib/utils';
-import NextDocument from 'next/document';
+import NextDocument, { Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
 export default class Document extends NextDocument {
@@ -32,5 +32,17 @@ export default class Document extends NextDocument {
     } finally {
       sheet.seal();
     }
+  }
+
+  render(): JSX.Element {
+    return (
+      <Html lang="en">
+        <Head />
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
   }
 }
